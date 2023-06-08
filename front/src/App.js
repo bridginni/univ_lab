@@ -42,7 +42,7 @@ const App = () => {
             <Route path="/profile" component={UserProfilePage} />
             <ProtectedRoute path="/create-post" component={CreatePostPage} />
             <Route exact path="/posts" component={PostListPage} />
-            <Route exact path="/posts/:id" component={Post} />
+            <Route exact path="/posts/:id" component={PostPage} />
           </Switch>
         </Container>
       </Router>

@@ -16,5 +16,6 @@ API:
 ```bash
 $ npm i
 $ npm run prisma:migrate:deploy
+$ npm run prisma:generate
 $ npm run start:dev
 ```
