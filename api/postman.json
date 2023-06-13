@@ -1,9 +1,9 @@
 {
   "info": {
-    "_postman_id": "f37ba255-1dbb-4739-b9e5-08590dca9209",
+    "_postman_id": "760a63c4-61d3-4672-be2c-66ea2bcb9bf3",
     "name": "MyBlog",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "3356311"
+    "_exporter_id": "1594671"
   },
   "item": [
     {
@@ -45,7 +45,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"email\": \"test6@example.com\",\n  \"password\": \"12345678\"\n}\n"
+          "raw": "{\n  \"email\": \"testuser6@example.com\",\n  \"password\": \"mypass\"\n}\n"
         },
         "url": {
           "raw": "http://localhost:3000/users/login",
@@ -111,7 +111,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"email\": \"student1@student.sumdu.edu.ua\",\n  \"password\": \"123\"\n}\n"
+          "raw": "{\n  \"email\": \"dlioon3@gmail.com\",\n  \"password\": \"123\"\n}\n"
         },
         "url": {
           "raw": "http://localhost:3000/users/login",
