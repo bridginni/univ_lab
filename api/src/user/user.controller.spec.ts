@@ -15,7 +15,11 @@ describe('UserController', () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			controllers: [UserController],
-			providers: [PrismaService, AuthService, { provide: JwtService, useValue: {}}],
+			providers: [
+				PrismaService,
+				AuthService,
+				{ provide: JwtService, useValue: {} },
+			],
 		}).compile();
 
 		userController = module.get<UserController>(UserController);
@@ -25,28 +29,40 @@ describe('UserController', () => {
 
 	describe('register', () => {
 		it('should register a new user', async () => {
-			// @ts-ignore
-			const createUserDto: CreateUserDto = { username: 'testuser', email: 'test@example.com', password: 'password' };
+			const createUserDto: CreateUserDto = {
+				// @ts-ignore
+				username: 'testuser',
+				email: 'test@example.com',
+				password: 'password',
+			};
 			const user = { id: 1, ...createUserDto };
 
 			// @ts-ignore
-			jest.spyOn(prismaService.user, 'create').mockImplementation(() => Promise.resolve(user));
+			jest.spyOn(prismaService.user, 'create').mockResolvedValue(user);
 
 			const result = await userController.register(createUserDto);
 
-			expect(result).toEqual({ message: 'User registered successfully', user });
+			expect(result).toEqual({
+				message: 'User registered successfully',
+				user,
+			});
 		});
 	});
 
 	describe('login', () => {
 		it('should login with valid credentials', async () => {
-			const loginDto: LoginDto = { email: 'test@example.com', password: 'password' };
+			const loginDto: LoginDto = {
+				email: 'test@example.com',
+				password: 'password',
+			};
 			const user = { id: 1, email: loginDto.email, password: 'hashedPassword' };
 			const token = 'testToken';
 
-			// @ts-ignore
-			jest.spyOn(authService, 'validateUser').mockImplementation(() => Promise.resolve(user));
-			jest.spyOn(authService, 'generateToken').mockImplementation(() => Promise.resolve(token));
+			jest
+				.spyOn(authService, 'validateUser')
+				// @ts-ignore
+				.mockResolvedValue(user);
+			jest.spyOn(authService, 'generateToken').mockResolvedValue(token);
 
 			const result = await userController.login(loginDto);
 
@@ -54,11 +70,16 @@ describe('UserController', () => {
 		});
 
 		it('should throw an UnauthorizedException with invalid credentials', async () => {
-			const loginDto: LoginDto = { email: 'test@example.com', password: 'wrongPassword' };
+			const loginDto: LoginDto = {
+				email: 'test@example.com',
+				password: 'wrongPassword',
+			};
 
-			jest.spyOn(authService, 'validateUser').mockImplementation(() => Promise.resolve(null));
+			jest.spyOn(authService, 'validateUser').mockResolvedValue(null);
 
-			expect(userController.login(loginDto)).rejects.toThrowError(UnauthorizedException);
+			await expect(userController.login(loginDto)).rejects.toThrowError(
+				UnauthorizedException,
+			);
 		});
 	});
 
@@ -68,7 +89,7 @@ describe('UserController', () => {
 			const request = { user: { id: user.id } };
 
 			// @ts-ignore
-			jest.spyOn(prismaService.user, 'findUnique').mockImplementation(() => Promise.resolve(user));
+			jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(user);
 
 			const result = await userController.me(null, request);
 
